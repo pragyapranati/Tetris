@@ -40,7 +40,7 @@ figure: The current falling block.
 The Figure class is used to represent the falling blocks. It has methods for moving the block, rotating the block, and getting the image of the block. The Tetris class is used to represent the Tetris game state. It has methods for updating the game state, drawing the game grid, and checking for game over.
 The game ends when the board is full of Tetris pieces.
 
-##How to build and run the game
+## How to build and run the game
 
 To build and run the game, you will need to have a python interpreter with installed libraries for which one can use any python package manager, text editor or IDE(Integrated development environment) and access to command line
  
