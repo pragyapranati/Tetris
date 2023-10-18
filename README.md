@@ -1,10 +1,10 @@
-##OOPS project
+## OOPS project
 
-#Tetris Game in python using  OOP
+# Tetris Game in python using  OOP
 
 This is a simple Tetris game written in Python using object-oriented programming (OOP).
 
-#libraries used
+# Libraries used
 
 pygame: This library is used for creating multimedia applications, such as games.
 random: This library is used for generating random numbers.
@@ -14,7 +14,7 @@ colorama: This library is used for coloring text in the console.
 
 The pygame library is used to create the graphical user interface for the game. The random library is used to generate random Tetris shapes and colors. The time library is used to control the speed of the game. The art library is used to generate the ASCII art that is displayed at the beginning of the game. The colorama library is used to color the text in the console, which makes the game more visually appealing.
 
-#classes used
+# Classes Used
 
 The game is implemented using the following classes:
 
@@ -59,7 +59,7 @@ To build and run the game, you will need to have a python interpreter with insta
 - Score tracking system, displaying the player's current score.
 - Speed increment as the game progresses, making it more difficult over time.
 
-##few tips
+## Few tips
 
 Try to keep the board as empty as possible. This will give you more room to manner new Tetris pieces. If you see a complete line, try to clear it as soon as possible. This will give you more points and make it easier to keep the board empty. Don't panic if the board starts to fill up. You can always try to rotate or move the current Tetris piece to a different location. Have fun!
 
