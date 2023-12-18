@@ -1,39 +1,50 @@
 import pygame
 import random
 import time
-
-from art import text2art
-from art import *
+from art import text2art, tprint
 from colorama import Fore, Style, init
 
 init(autoreset=True)
-ascii_art = text2art("Tetris", font='block', chr_ignore=True)                     #for printing tetris at start
-colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.MAGENTA, Fore.CYAN]  #defining colours
 
+ascii_art = text2art("Tetris", font='block', chr_ignore=True)
+colors = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.MAGENTA, Fore.CYAN]
 
-ascii_characters = list(ascii_art)           
+ascii_characters = list(ascii_art)
 colored_art = ""
 for i, char in enumerate(ascii_characters):
     if char == '\n':
-        colored_art += char  
+        colored_art += char
     else:
         colored_art += colors[i % len(colors)] + char
 
 print(colored_art)
 print(Style.RESET_ALL)
-print("Game Rules: \n")
-print("1. Press -> and <- keys to move right and left respectively \n")
-print("2. Press ^ to rotate \n")
-print("3. Press down to move faster \n")
-print("4. Press space to rest tetromino on game board \n")
-print("5. Press esc for new game \n")
+print("Game Rules:\n")
+print("1. Press -> and <- keys to move right and left respectively\n")
+print("2. Press ^ to rotate\n")
+print("3. Press down to move faster\n")
+print("4. Press space to rest tetromino on the game board\n")
+print("5. Press esc for a new game\n")
 
-delay_seconds = 10                                                                 # for delaying before start
-for remaining_time in range(delay_seconds, 0, -1):
-    print(f"Game starts in {remaining_time} second", end='\r')
-    time.sleep(1)
+# Level selection menu
+def select_level():
+    print("Select Level:")
+    print("1. Easy")
+    print("2. Medium")
+    print("3. Hard")
 
- # defining colours
+    level_choice = input("Enter the level number (1/2/3): ")
+    levels = [1, 2, 3]
+
+    if level_choice.isdigit() and int(level_choice) in levels:
+        return int(level_choice)
+    else:
+        print("Invalid choice. Defaulting to Easy level.")
+        return 1  # Default to Easy level
+
+# Set the game level based on user selection
+selected_level = select_level()
+
 colors = [
     (0, 0, 0),
     (120, 37, 179),
@@ -44,7 +55,6 @@ colors = [
     (180, 34, 122),
 ]
 
-# defining shapes
 class Figure:
     x = 0
     y = 0
@@ -59,7 +69,6 @@ class Figure:
         [[1, 2, 5, 6]],
     ]
 
-# defining coordinates and movement of tetromino
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -73,10 +82,9 @@ class Figure:
     def rotate(self):
         self.rotation = (self.rotation + 1) % len(self.figures[self.type])
 
-#defining parameters
 class Tetris:
     def __init__(self, height, width):
-        self.level = 2
+        self.level = 1
         self.score = 0
         self.state = "start"
         self.field = []
@@ -86,7 +94,7 @@ class Tetris:
         self.y = 60
         self.zoom = 20
         self.figure = None
-    
+
         self.height = height
         self.width = width
         self.field = []
@@ -98,8 +106,7 @@ class Tetris:
                 new_line.append(0)
             self.field.append(new_line)
 
-
-    def new_figure (self):
+    def new_figure(self):
         self.figure = Figure(3, 0)
 
     def intersects(self):
@@ -162,7 +169,6 @@ class Tetris:
         if self.intersects():
             self.figure.rotation = old_rotation
 
-
 # Initialize the game engine
 pygame.init()
 
@@ -181,10 +187,15 @@ done = False
 clock = pygame.time.Clock()
 fps = 375
 game = Tetris(20, 10)
+game.level = selected_level  # Set the selected level
 counter = 0
-
 pressing_down = False
-
+if game.level == 1:
+    fps = 375  # Easy level
+elif game.level == 2:
+    fps = 250  # Medium level
+elif game.level == 3:
+    fps = 125  # Hard level
 while not done:
     if game.figure is None:
         game.new_figure()
@@ -213,7 +224,7 @@ while not done:
             if event.key == pygame.K_ESCAPE:
                 game.__init__(20, 10)
 
-    if event.type == pygame.KEYUP:
+        if event.type == pygame.KEYUP:
             if event.key == pygame.K_DOWN:
                 pressing_down = False
 
@@ -238,7 +249,7 @@ while not done:
 
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 65, True, False)
-    text = font.render("Score: " + str(game.score), True, BLACK)
+    text = font.render("Score: " + str(game.score) + "  Level: " + str(game.level), True, BLACK)
     text_game_over = font1.render("Game Over", True, (255, 125, 0))
     text_game_over1 = font1.render("Press ESC", True, (255, 215, 0))
 
@@ -251,4 +262,4 @@ while not done:
     clock.tick(fps)
 
 pygame.quit()
-tprint("Thank You","caligraphy")
+tprint("Thank You", "caligraphy")
